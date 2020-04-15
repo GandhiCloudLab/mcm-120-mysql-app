@@ -1,0 +1,22 @@
+---
+# Source: dnb2-channel/templates/21-deployable-web.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dnb2-prerequisite-config-map
+  namespace: dnb2-app-ns2
+  labels:
+    app: dnb2-prerequisite-config-map
+    name: dnb2-prerequisite-config-map
+# type: Opaque
+data:
+  prop.api.server.url.user: http://<<ManagedClusterIP>>:31331
+  prop.api.server.url.financialplan: http://<<ManagedClusterIP>>:31312
+  spring.datasource.url: jdbc:h2:mem:/wcare
+  spring.datasource.username: admin
+  spring.datasource.password: "admin"
+  spring.datasource.driver-class-name: org.h2.Driver
+  spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  temp.db2.spring.datasource.url: jdbc:db2://10.1.1.21:31663/ecare
+  temp.db2.spring.datasource.driver-class-name: com.ibm.db2.jcc.DB2Driver
+  temp.db2.spring.jpa.database-platform: org.hibernate.dialect.DB2Dialect

@@ -1,0 +1,14 @@
+---
+# Source: dnb2-channel/templates/11-channel.yaml
+apiVersion: app.ibm.com/v1alpha1
+kind: Channel
+metadata:
+  name: dnb2-channel-loan
+  namespace: dnb2-channel-ns2
+  labels:
+    app: dnb2-application
+spec:
+  type: Namespace
+  pathname: dnb2-channel-ns2
+  sourceNamespaces:
+    - dnb2-app-ns2

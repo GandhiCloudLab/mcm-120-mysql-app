@@ -1,0 +1,53 @@
+---
+# Source: dnb2-subscription/templates/31-subscription.yaml
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: subscription-dnb2-loan
+  namespace: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+spec:
+  channel: dnb2-channel-ns2/dnb2-channel-loan
+  packageFilter:
+    version: ">=1.x"
+    labelSelector:
+      matchLabels:
+        app: dnb2-application
+        subApp: loan        
+  placement:
+    placementRef:
+      name: dnb2-loan
+      kind: PlacementRule
+      group: app.ibm.com
+  overrides:
+  - clusterName: "/"
+    clusterOverrides:
+    - path: "metadata.namespace"
+      value: dnb2-app-ns2      
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: subscription-dnb2-mysql
+  namespace: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+spec:
+  channel: dnb2-channel-ns2/dnb2-channel-mysql
+  packageFilter:
+    version: ">=1.x"
+    labelSelector:
+      matchLabels:
+        app: dnb2-application
+        subApp: mysql        
+  placement:
+    placementRef:
+      name: dnb2-mysql
+      kind: PlacementRule
+      group: app.ibm.com
+  overrides:
+  - clusterName: "/"
+    clusterOverrides:
+    - path: "metadata.namespace"
+      value: dnb2-app-ns2        

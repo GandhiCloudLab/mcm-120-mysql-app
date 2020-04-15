@@ -1,0 +1,28 @@
+---
+# Source: dnb2-subscription/templates/21-placement.yaml
+apiVersion: app.ibm.com/v1alpha1
+kind: PlacementRule
+metadata:
+  name: dnb2-loan
+  namespace: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      cloud: IBM  
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: PlacementRule
+metadata:
+  name: dnb2-mysql
+  namespace: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      cloud: IBM      
+      

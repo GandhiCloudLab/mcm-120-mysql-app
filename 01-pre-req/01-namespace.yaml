@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dnb2-channel-ns2
+  labels:
+    app: dnb2-application
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dnb2-app-ns2
+  labels:
+    app: dnb2-application

@@ -1,0 +1,78 @@
+---
+# Source: dnb2-channel/templates/21-deployable-loan.yaml
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: dnb2-deployable-deployment-loan
+  namespace: dnb2-channel-ns2
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    app: dnb2-application
+    subApp: loan
+spec:
+  template:
+    kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: dnb2-loan
+      namespace: dnb2-app-ns2
+      labels:
+        app: dnb2-application
+        subname: loan
+    spec:
+      selector:
+        matchLabels:
+          app: dnb2-application
+          subname: loan
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: dnb2-application
+            subname: loan
+        spec:
+          containers:
+            - name: container-loan
+              image: "barnalib/dnb-loan-req-kabanero:loan-req-v1"
+              imagePullPolicy: Always
+              ports:
+                - name: http
+                  containerPort: 8080
+                  protocol: TCP
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: dnb2-deployable-service-loan
+  namespace: dnb2-channel-ns2
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    app: dnb2-application
+    subApp: loan
+spec:
+  template:
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: dnb2-loan
+      namespace: dnb2-app-ns2
+      labels:
+        app: dnb2-application
+        subname: loan      
+      annotations:
+        prometheus.io/scrape: 'true' 
+        prometheus.io/port: '9092'
+        prometheus.io/path: '/loan//actuator/prometheus'
+        mcm.ibm.com/service-discovery: "{}"            
+    spec:
+      type: NodePort
+      ports:
+        - name: my-http
+          port: 8080
+          targetPort: 8080
+          nodePort: 31651
+      selector:
+        app: dnb2-application
+        subname: loan

@@ -1,0 +1,19 @@
+---
+# Source: dnb2-subscription/templates/11-application.yaml
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: dnb2
+  namespace: dnb2-subscription-ns2
+  labels:
+    app: dnb2-application
+spec:
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - dnb2-application
+  componentKinds:
+  - group: app.ibm.com
+    kind: Subscription

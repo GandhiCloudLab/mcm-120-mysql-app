@@ -1,0 +1,81 @@
+---
+# Source: dnb2-channel/templates/21-deployable-mysql.yaml
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: dnb2-deployable-deployment-mysql
+  namespace: dnb2-channel-ns2
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    app: dnb2-application
+    subApp: mysql
+spec:
+  template:
+    kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: dnb2-mysql
+      namespace: dnb2-app-ns2
+      labels:
+        app: dnb2-application
+        subname: mysql
+    spec:
+      selector:
+        matchLabels:
+          app: dnb2-application
+          subname: mysql
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: dnb2-application
+            subname: mysql
+        spec:
+          containers:
+            - name: mysqldb
+              image: "mysql/mysql-server"
+              imagePullPolicy: Always
+              ports:
+                  containerPort: 3306
+                  protocol: TCP
+            - env:
+              - name: MYSQL_DATABASE
+                value: dnb2
+              - name: MYSQL_PASSWORD
+                value: root2
+              - name: MYSQL_ROOT_PASSWORD
+                value: root
+              - name: MYSQL_USER
+                value: root1
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Deployable
+metadata:
+  name: dnb2-deployable-service-mysql
+  namespace: dnb2-channel-ns2
+  annotations:
+    app.ibm.com/is-local-deployable: "false"
+  labels:
+    app: dnb2-application
+    subApp: mysql
+spec:
+  template:
+    kind: Service
+    apiVersion: v1
+    metadata:
+      name: dnb2-mysql
+      namespace: dnb2-app-ns2
+      labels:
+        app: dnb2-application
+        subname: mysql                  
+    spec:
+      type: NodePort
+      ports:
+        - name: my-http
+          port: 3306
+          targetPort: 3306
+          nodePort: 31650
+      selector:
+        app: dnb2-application
+        subname: mysql
