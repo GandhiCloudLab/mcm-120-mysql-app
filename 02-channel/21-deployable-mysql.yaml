@@ -19,7 +19,7 @@ spec:
       namespace: dnb2-app-ns2
       labels:
         app: dnb2-application
-        subname: mysql
+        subApp: mysql
     spec:
       selector:
         matchLabels:

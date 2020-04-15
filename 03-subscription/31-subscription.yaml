@@ -34,7 +34,7 @@ metadata:
   labels:
     app: dnb2-application
 spec:
-  channel: dnb2-channel-ns2/dnb2-channel-mysql
+  channel: dnb2-channel-ns2/dnb2-channel-loan
   packageFilter:
     version: ">=1.x"
     labelSelector:
